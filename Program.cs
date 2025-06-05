@@ -90,7 +90,14 @@ void OptionPath(int option)
             AllPetsList();
             break;
         case 2:
-            return;
+            bool new_animal = AddAnimalPetList();
+
+            if (!new_animal)
+            {
+                Console.WriteLine("ERROR");
+            }
+            break;
+            
         case 3:
             return;
         case 4:
@@ -126,6 +133,75 @@ void AllPetsList()
     Console.WriteLine();
     Console.WriteLine("Pressione qualquer tecla para voltar ao menu principal...");
     Console.ReadKey(true);
+}
+
+bool AddAnimalPetList()
+{
+    try
+    {
+        Console.Clear();
+        Console.WriteLine("Let's add a new animal to our shop.");
+
+        string specie;
+        do
+        {
+            Console.Write("What is the species of your animal? ");
+            specie = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(specie))
+                Console.WriteLine("Species cannot be empty. Please enter a value.");
+        } while (string.IsNullOrWhiteSpace(specie));
+
+        string age;
+        do
+        {
+            Console.Write("What is the age of your animal? ");
+            age = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(age))
+                Console.WriteLine("Age cannot be empty. Please enter a value.");
+        } while (string.IsNullOrWhiteSpace(age));
+
+        string physicalDescription;
+        do
+        {
+            Console.Write("Enter a physical description for your animal: ");
+            physicalDescription = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(physicalDescription))
+                Console.WriteLine("Physical description cannot be empty. Please enter a value.");
+        } while (string.IsNullOrWhiteSpace(physicalDescription));
+
+        Console.Write("Enter a personality description for your animal: ");
+        string personalityDescription = Console.ReadLine();
+
+        Console.Write("Enter a nickname for your animal: ");
+        string nickname = Console.ReadLine();
+
+        // Gera um novo ID único baseado na primeira letra da espécie e um número aleatório de 3 dígitos
+        string prefix = !string.IsNullOrWhiteSpace(specie) ? specie.Substring(0, 1).ToUpper() : "X";
+        string newId;
+        Random rnd = new Random();
+        do
+        {
+            int number = rnd.Next(100, 1000); // Gera número entre 100 e 999
+            newId = $"{prefix}{number}";
+        } while (ourAnimals.ContainsKey(newId));
+
+        ourAnimals[newId] = new Dictionary<string, string>
+        {
+            ["animalSpecies"] = specie,
+            ["animalAge"] = age,
+            ["animalPhysicalDescription"] = physicalDescription,
+            ["animalPersonalityDescription"] = personalityDescription,
+            ["animalNickname"] = nickname
+        };
+
+        Console.WriteLine("Animal cadastrado (simulação). Pressione qualquer tecla para voltar ao menu principal...");
+        Console.ReadKey(true);
+        return true;
+    }
+    catch
+    {
+        return false;
+    }
 }
 
 Main();
