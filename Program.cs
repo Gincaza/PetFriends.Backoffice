@@ -87,7 +87,8 @@ void OptionPath(int option)
     switch (option)
     {
         case 1:
-            return;
+            AllPetsList();
+            break;
         case 2:
             return;
         case 3:
@@ -105,6 +106,26 @@ void OptionPath(int option)
         default:
             return;
     }
+
+    return;
+}
+
+void AllPetsList()
+{
+    foreach (KeyValuePair<string, Dictionary<string, string>> ourAnimal in ourAnimals)
+    {
+        string id = ourAnimal.Key;
+        string species = ourAnimal.Value["animalSpecies"];
+        string age = ourAnimal.Value["animalAge"];
+        string physicalDescription = ourAnimal.Value["animalPhysicalDescription"];
+        string personalityDescription = ourAnimal.Value["animalPersonalityDescription"];
+        string nickname = ourAnimal.Value["animalNickname"];
+
+        Console.WriteLine($"ID: {id}, Espécie: {species}, Idade: {age}, Apelido: {nickname}");
+    }
+    Console.WriteLine();
+    Console.WriteLine("Pressione qualquer tecla para voltar ao menu principal...");
+    Console.ReadKey(true);
 }
 
 Main();
