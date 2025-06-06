@@ -117,6 +117,13 @@ void OptionPath(int option)
     return;
 }
 
+void Freeze()
+{
+    Console.WriteLine();
+    Console.WriteLine("Pressione qualquer tecla para voltar ao menu principal...");
+    Console.ReadKey(true);
+}
+
 void AllPetsList()
 {
     foreach (KeyValuePair<string, Dictionary<string, string>> ourAnimal in ourAnimals)
@@ -130,9 +137,7 @@ void AllPetsList()
 
         Console.WriteLine($"ID: {id}, Espécie: {species}, Idade: {age}, Apelido: {nickname}");
     }
-    Console.WriteLine();
-    Console.WriteLine("Pressione qualquer tecla para voltar ao menu principal...");
-    Console.ReadKey(true);
+    Freeze();
 }
 
 bool AddAnimalPetList()
@@ -202,6 +207,46 @@ bool AddAnimalPetList()
     {
         return false;
     }
+}
+
+void AnimalAgeDescriptionComplete(string id_animal)
+{
+    id_animal = id_animal.ToLower();
+    
+    if (ourAnimals.ContainsKey(id_animal))
+    {
+        var animal = ourAnimals[id_animal];
+        foreach (var attribute in animal)
+        {
+            if (string.IsNullOrEmpty(attribute.Value))
+            {
+                Console.Clear();
+                switch (attribute.Key)
+                {
+                    case "animalAge":
+                        Console.WriteLine("A idade do animal não foi informada.");
+                        break;
+                    case "animalPhysicalDescription":
+                        Console.WriteLine("A descrição física do animal não foi informada.");
+                        break;
+                    case "animalPersonalityDescription":
+                        Console.WriteLine("A descrição de personalidade do animal não foi informada.");
+                        break;
+                    case "animalNickname":
+                        Console.WriteLine("O apelido do animal não foi informado.");
+                        break;
+                    default:
+                        Console.WriteLine($"O atributo '{attribute.Key}' não foi informado.");
+                        break;
+                }
+            }
+        }
+    }
+    else
+    {
+        Console.WriteLine("Animal não encontrado.");
+    }
+    Freeze();
 }
 
 Main();
