@@ -97,9 +97,14 @@ void OptionPath(int option)
                 Console.WriteLine("ERROR");
             }
             break;
-            
+
         case 3:
-            return;
+            var (success, animalId) = AskUserPrompt("Qual o Id do Animal ?");
+            if (success)
+            {
+                AnimalAgeDescriptionComplete(animalId);
+            }
+            break;
         case 4:
             return;
         case 5:
@@ -115,6 +120,25 @@ void OptionPath(int option)
     }
 
     return;
+}
+
+(bool, string) AskUserPrompt(string question)
+{
+    string inputusers;
+    do
+    {
+        Console.WriteLine(question);
+        inputusers = Console.ReadLine();
+
+        if (!string.IsNullOrWhiteSpace(inputusers) && ourAnimals.ContainsKey(inputusers))
+        {
+            return (true, inputusers);
+        }
+        else
+        {
+            Console.WriteLine("Inválido. Tente novamente.");
+        }
+    } while (true);
 }
 
 void Freeze()
